@@ -1,0 +1,258 @@
+$sizes: smaller, small, normal, big, bigger, biggest;
+$directions: top, bottom, left, right, full, center;
+
+
+/* Basic color */
+@function white($Opacity) {
+  @return rgba(255, 255, 255, $Opacity);
+}
+
+@function black($Opacity) {
+  @return rgba(0, 0, 0, $Opacity);
+}
+
+@mixin color($color, $porp, $Opacity, $is_imp: false) {
+  @if $is_imp == false {
+    #{$porp}: call(get-function($color), $Opacity);
+  } @else {
+    #{$porp}: call(get-function($color), $Opacity) !important;
+  }
+}
+
+.white {
+  @include color('white', 'color', 1, true);
+}
+
+.bg-white {
+  @include color('white', 'background-color', 1, true);
+}
+
+.black {
+  @include color('black', 'color', 1, true);
+}
+
+.bg-black {
+  @include color('black', 'background-color', 1, true);
+}
+
+/* Font */
+@mixin semibold {
+  font-weight: 600;
+}
+
+@mixin medium {
+  font-weight: 500;
+}
+
+@mixin light {
+  font-weight: 300;
+}
+
+.semibold {
+  @include semibold;
+}
+
+.medium {
+  @include medium;
+}
+
+.light {
+  @include light;
+}
+
+@for $i from 1 through length($sizes) {
+  .font-#{nth($sizes, $i)} {
+    $n: $i + 5;
+    font-size: $n * 2px;
+    line-height: $n * 3px;
+  }
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+/* Layout */
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.relative {
+  position: relative;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.absolute {
+  position: absolute;
+}
+
+@for $i from 1 through length($directions)  {
+  $direction: nth($directions, $i);
+  .fixed-#{$direction} {
+    position: fixed;
+    @if $direction != center {
+      @for $ii from 1 through length($directions)  {
+        $pos: nth($directions, $ii);
+        @if ($i % 2 == 1 and $i + 1 != $ii) or ($i % 2 == 0 and $i - 1 != $ii) {
+          @if $pos != full and $pos != center {
+            #{$pos}: 0;
+          }
+        }
+      }
+    } @else {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    z-index: 1001;
+  }
+}
+
+@for $i from 1 through length($directions)  {
+  $direction: nth($directions, $i);
+  .absolute-#{$direction} {
+    position: absolute;
+    @if $direction != center {
+      @for $ii from 1 through length($directions)  {
+        $pos: nth($directions, $ii);
+        @if ($i % 2 == 1 and $i + 1 != $ii) or ($i % 2 == 0 and $i - 1 != $ii) {
+          @if $pos != full and $pos != center {
+            #{$pos}: 0;
+          }
+        }
+      }
+    } @else {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    z-index: 1001;
+  }
+}
+
+
+/* Flexable box */
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.flex-reverse {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.flex-direction-column {
+  flex-direction: column;
+  &.flex-reverse {
+    flex-direction: column-reverse;
+  }
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-flex-end {
+  justify-content: flex-end;
+}
+
+.justify-content-space-between {
+  justify-content: space-between;
+}
+
+.justify-content-space-around {
+  justify-content: space-around;
+}
+
+.flex-shrink0 {
+  flex-shrink: 0;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+/* Html box mode */
+@for $i from 1 through length($sizes) {
+  .p-#{nth($sizes, $i)} {
+    padding-top: $i * 5px !important;
+    padding-left: $i * 5px !important;
+    padding-right: $i * 5px !important;
+    padding-bottom: $i * 5px !important;
+  }
+  .ph-#{nth($sizes, $i)} {
+    padding-left: $i * 5px !important;
+    padding-right: $i * 5px !important;
+  }
+  .pv-#{nth($sizes, $i)} {
+    padding-top: $i * 5px !important;
+    padding-bottom: $i * 5px !important;
+  }
+  .pt-#{nth($sizes, $i)} {
+    padding-top: $i * 5px !important;
+  }
+  .pb-#{nth($sizes, $i)} {
+    padding-bottom: $i * 5px !important;
+  }
+  .mt-#{nth($sizes, $i)} {
+    margin-top: $i * 5px !important;
+  }
+  .ml-#{nth($sizes, $i)} {
+    margin-left: $i * 5px !important;
+  }
+  .mr-#{nth($sizes, $i)} {
+    margin-right: $i * 5px !important;
+  }
+  .mb-#{nth($sizes, $i)} {
+    margin-bottom: $i * 5px !important;
+  }
+}
+
+/* Shadow */
+@for $i from 1 through length($directions)  {
+  $direction: nth($directions, $i);
+  $color: call(get-function('black'), 0.5);
+  .shadow-#{$direction} {
+    @if $i % 2 == 0 {
+      box-shadow: 0px 3px 10px 0px #{$color};
+    } @else {
+      box-shadow: 0px -3px 10px 0px #{$color};
+    }
+  }
+}
+
+/* Button */
+@mixin no-drag {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.no-drag {
+  @include no-drag;
+}
+
+.tab, .btn {
+  @include no-drag;
+  cursor: pointer;
+}
