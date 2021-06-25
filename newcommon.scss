@@ -44,10 +44,6 @@ $directions: top, bottom, left, right, full, center;
   font-weight: 500;
 }
 
-@mixin regular {
-  font-weight: 400;
-}
-
 @mixin light {
   font-weight: 300;
 }
@@ -62,10 +58,6 @@ $directions: top, bottom, left, right, full, center;
 
 .light {
   @include light;
-}
-
-.regular {
-  @include regular;
 }
 
 @for $i from 1 through length($sizes) {
@@ -133,15 +125,15 @@ $directions: top, bottom, left, right, full, center;
 }
 
 .relative {
-  position: relative !important;
+  position: relative;
 }
 
 .fixed {
-  position: fixed !important;
+  position: fixed;
 }
 
 .absolute {
-  position: absolute !important;
+  position: absolute;
 }
 
 @for $i from 1 through length($directions)  {
